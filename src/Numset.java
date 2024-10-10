@@ -42,13 +42,56 @@ class Numset {
 			sc.nextLine();
 		} //all data is in records by now
 
-		for (int i = 0; i < data.length; i++) {
-			mean += data[i].af();
-		}
-		mean /= data.length;
-		stddev = mean / data.length;
+		selectCol(1);
 
 		System.out.println("Mean: " + mean);
 		System.out.println("StdDev: " + stddev);
+	}
+
+	public void selectCol(int col) {
+		mean = 0;
+		stddev = 0;
+
+		switch (col) {
+			case 1:
+				for (YearInfo datum : data) {
+					mean += datum.af();
+				}
+				break;
+			case 2:
+				for (YearInfo datum : data) {
+					mean += datum.fafh();
+				}
+				break;
+			case 3:
+				for (YearInfo datum : data) {
+					mean += datum.fah();
+				}
+				break;
+			case 4:
+				for (YearInfo datum : data) {
+					mean += datum.mpf();
+				}
+				break;
+			case 5:
+				for (YearInfo datum : data) {
+					mean += datum.dp();
+				}
+				break;
+			default:
+				System.out.println("Invalid column number");
+				return;
+		}
+
+		mean /= data.length;
+		stddev = mean / data.length;
+	}
+
+	public float getMean() {
+		return mean;
+	}
+
+	public float getStddev() {
+		return stddev;
 	}
 }
