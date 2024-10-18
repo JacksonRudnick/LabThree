@@ -1,15 +1,27 @@
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
+import java.awt.image.BufferedImage;
 import java.util.Scanner;
 import java.io.*;
 
 class Numset {
-	int numLines = 50;
-	YearInfo[] data;
+	JFreeChart chart;
+
+	final int startYear = 1974;
+	final int numLines = 50;
+	final int numData = 4;
+	float[][] data;
 
 	//all food
 	float mean;
 	float stddev;
 
 	public Numset() {
+		data = new float[numLines][numData];
 		Scanner sc = null;
 
 		//scanner for file
@@ -20,71 +32,79 @@ class Numset {
 			return;
 		}
 
-		//50 years of data
-		data = new YearInfo[numLines];
-
 		//use comma for limiter
 		sc.useDelimiter(",");
 
 		//skip first line containing outline for vars
 		sc.nextLine();
 
-		for (int i = 0; i < data.length; i++) {
+		for (int i = 0; i < numLines; i++) {
 			//read data
-			int year = Integer.parseInt(sc.next());
-			float af = Float.parseFloat(sc.next());
-			float fafh = Float.parseFloat(sc.next());
-			float fah = Float.parseFloat(sc.next());
-			float mpf = Float.parseFloat(sc.next());
-			float dp = Float.parseFloat(sc.next());
-
-			data[i] = new YearInfo(year, af, fafh, fah, mpf, dp);
+			data[i][0] = Integer.parseInt(sc.next());
+			data[i][1] = Float.parseFloat(sc.next());
+			data[i][2] = Float.parseFloat(sc.next());
+			data[i][3] = Float.parseFloat(sc.next());
 			sc.nextLine();
-		} //all data is in records by now
+		} //all data is read
 
+		//select default column
 		selectCol(1);
 
-		System.out.println("Mean: " + mean);
-		System.out.println("StdDev: " + stddev);
+		//create chart
+		chart = ChartFactory.createXYLineChart("Food Data", "Year", "Value", getDataset(1));
 	}
 
 	public void selectCol(int col) {
+		if (col == 0 || col > 3) {
+			System.out.println("Invalid Column");
+			return;
+		}
+
 		mean = 0;
 		stddev = 0;
 
-		switch (col) {
-			case 1:
-				for (YearInfo datum : data) {
-					mean += datum.af();
-				}
-				break;
-			case 2:
-				for (YearInfo datum : data) {
-					mean += datum.fafh();
-				}
-				break;
-			case 3:
-				for (YearInfo datum : data) {
-					mean += datum.fah();
-				}
-				break;
-			case 4:
-				for (YearInfo datum : data) {
-					mean += datum.mpf();
-				}
-				break;
-			case 5:
-				for (YearInfo datum : data) {
-					mean += datum.dp();
-				}
-				break;
-			default:
-				System.out.println("Invalid column number");
-				return;
+		//go through years
+		for (int i = 0; i < numLines; i++) {
+			mean += data[i][col];
 		}
 
-		mean /= data.length;
-		stddev = mean / data.length;
+		mean /= numLines;
+		stddev = mean / numLines;
+
+		getDataset(col);
+	}
+
+	public JFreeChart getChart() {
+		return chart;
+	}
+
+	private XYSeries returnSeries(int col) {
+		XYSeries series = new XYSeries(numLines);
+
+		if (col == 0 || col > 3) {
+			System.out.println("Invalid Column");
+			return null;
+		}
+
+		for (int i = 0; i < numLines; i++) {
+			series.add(data[i][0], data[i][col]);
+		}
+
+		return series;
+	}
+
+	private XYDataset getDataset(int col) {
+		XYSeriesCollection dataset = new XYSeriesCollection();
+
+		dataset.addSeries(returnSeries(col));
+
+		chart = ChartFactory.createXYLineChart("Food Data", "Year", "Value", dataset);
+
+		return dataset;
+	}
+
+	public float[][] getData() {
+		return data;
 	}
 
 	public float getMean() {
