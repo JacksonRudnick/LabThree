@@ -51,7 +51,7 @@ class Numset {
 		selectCol(1);
 
 		//create chart
-		chart = ChartFactory.createXYLineChart("Food Data", "Year", "Value", getDataset(1));
+		chart = ChartFactory.createXYLineChart("Cpi of Food Prices Over Time", "Year", "Value", getDataset(1));
 	}
 
 	public void selectCol(int col) {
@@ -98,7 +98,7 @@ class Numset {
 
 		dataset.addSeries(returnSeries(col));
 
-		chart = ChartFactory.createXYLineChart("Food Data", "Year", "Value", dataset);
+		chart = ChartFactory.createXYLineChart("Cpi of Food Prices Over Time", "Year", "Value", dataset);
 
 		return dataset;
 	}
