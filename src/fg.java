@@ -1,9 +1,7 @@
-import org.jfree.chart.ChartPanel;
-
-import javax.swing.*;
-
-class Main {
+class fg {
 	public static void main(String[] args) {
+		//Numset ns = new Numset();
+
 		Display display = new Display();
 	}
 }

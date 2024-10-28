@@ -9,5 +9,4 @@ public class ChartPanel extends JPanel {
 
 		this.add(new org.jfree.chart.ChartPanel(chart));
 	}
-
 }

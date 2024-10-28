@@ -8,7 +8,7 @@ public class Display {
 		JFrame frame = new JFrame();
 		frame.setTitle("Stats");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1000, 1000);
+		frame.setSize(1280, 720);
 		frame.setVisible(true);
 
 		Numset ns = new Numset();
@@ -20,17 +20,23 @@ public class Display {
 		ChartPanel chartPanel = new ChartPanel(ns.getChart());
 		panel.add(chartPanel);
 
-		TablePanel tablePanel = new TablePanel(ns.getData());
-		panel.add(tablePanel);
-
-		StatsPanel statsPanel = new StatsPanel();
+		StatsPanel statsPanel = new StatsPanel(ns);
 		panel.add(statsPanel);
 
 		DetailsPanel detailsPanel = new DetailsPanel();
 		panel.add(detailsPanel);
 
+		TablePanel tablePanel = new TablePanel(ns, statsPanel, detailsPanel);
+		panel.add(tablePanel);
+
 		panel.setVisible(true);
 		panel.revalidate();
 		panel.repaint();
+	}
+}
+
+class Main {
+	public static void main(String[] args) {
+		Display display = new Display();
 	}
 }
