@@ -24,8 +24,6 @@ class Numset {
 	public Numset() {
 		Scanner sc = null;
 
-		//NEED TO LOOK AT USING A STREAM FOR DATA!!!!!!!
-
 		//scanner for file
 		try {
 			sc = new Scanner(new File("UDADHF_replication.csv"));
@@ -53,6 +51,7 @@ class Numset {
 			row++;
 		}
 
+		//close scanner
 		sc.close();
 
 		//select default column

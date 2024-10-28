@@ -7,6 +7,7 @@ public class ChartPanel extends JPanel {
 	ChartPanel(JFreeChart chart) {
 		this.chart = chart;
 
+		// Add the chart to the panel
 		this.add(new org.jfree.chart.ChartPanel(chart));
 	}
 }

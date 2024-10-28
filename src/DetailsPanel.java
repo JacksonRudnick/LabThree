@@ -4,6 +4,7 @@ public class DetailsPanel extends JPanel {
 	DetailsPanel() {
 	}
 
+	// Update the details panel
 	public void update(String colDetails, String rowDetails) {
 		this.removeAll();
 
